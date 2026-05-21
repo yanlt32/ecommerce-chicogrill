@@ -2,15 +2,29 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 import { formatPrice } from "@/lib/products";
+import ShippingCalc from "@/components/ShippingCalc";
 
 const SHIPPING = 15;
 
 export default function CartPage() {
+  const router = useRouter();
   const { items, removeItem, updateQuantity, total, count } = useCart();
+  const { user } = useAuth();
   const shippingCost = total === 0 ? 0 : total >= 300 ? 0 : SHIPPING;
   const orderTotal = total + shippingCost;
+
+  function handleCheckout() {
+    if (items.length === 0) return;
+    if (!user) {
+      router.push("/login?redirect=/checkout");
+    } else {
+      router.push("/checkout");
+    }
+  }
 
   return (
     <div className="max-w-screen-2xl mx-auto px-4 md:px-16 py-12">
@@ -71,38 +85,24 @@ export default function CartPage() {
                       <div className="flex items-center justify-center md:justify-start gap-4 mt-4">
                         <div className="flex items-center border border-outline-variant/40 rounded-full px-2 py-1">
                           <button
-                            onClick={() =>
-                              updateQuantity(item.product.id, item.size, -1)
-                            }
+                            onClick={() => updateQuantity(item.product.id, item.size, -1)}
                             className="p-1 hover:text-flame-orange transition-colors"
                           >
-                            <span className="material-symbols-outlined text-lg">
-                              remove
-                            </span>
+                            <span className="material-symbols-outlined text-lg">remove</span>
                           </button>
-                          <span className="px-4 font-title font-bold">
-                            {item.quantity}
-                          </span>
+                          <span className="px-4 font-title font-bold">{item.quantity}</span>
                           <button
-                            onClick={() =>
-                              updateQuantity(item.product.id, item.size, 1)
-                            }
+                            onClick={() => updateQuantity(item.product.id, item.size, 1)}
                             className="p-1 hover:text-flame-orange transition-colors"
                           >
-                            <span className="material-symbols-outlined text-lg">
-                              add
-                            </span>
+                            <span className="material-symbols-outlined text-lg">add</span>
                           </button>
                         </div>
                         <button
-                          onClick={() =>
-                            removeItem(item.product.id, item.size)
-                          }
+                          onClick={() => removeItem(item.product.id, item.size)}
                           className="text-on-surface-variant hover:text-meat-red transition-colors flex items-center gap-1 font-title text-xs font-semibold uppercase"
                         >
-                          <span className="material-symbols-outlined text-base">
-                            delete
-                          </span>
+                          <span className="material-symbols-outlined text-base">delete</span>
                           Remover
                         </button>
                       </div>
@@ -121,29 +121,17 @@ export default function CartPage() {
           {/* Trust badges */}
           <div className="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-center gap-4 bg-surface-container-high/30 p-4 rounded-lg border border-outline-variant/10">
-              <span className="material-symbols-outlined text-flame-orange text-3xl">
-                verified_user
-              </span>
+              <span className="material-symbols-outlined text-flame-orange text-3xl">verified_user</span>
               <div>
-                <p className="font-title font-semibold text-sm text-on-surface uppercase">
-                  Compra Segura
-                </p>
-                <p className="text-on-surface-variant text-xs font-body">
-                  Seus dados protegidos com criptografia de ponta.
-                </p>
+                <p className="font-title font-semibold text-sm text-on-surface uppercase">Compra Segura</p>
+                <p className="text-on-surface-variant text-xs font-body">Seus dados protegidos com criptografia de ponta.</p>
               </div>
             </div>
             <div className="flex items-center gap-4 bg-surface-container-high/30 p-4 rounded-lg border border-outline-variant/10">
-              <span className="material-symbols-outlined text-flame-orange text-3xl">
-                sync_alt
-              </span>
+              <span className="material-symbols-outlined text-flame-orange text-3xl">sync_alt</span>
               <div>
-                <p className="font-title font-semibold text-sm text-on-surface uppercase">
-                  Troca Grátis
-                </p>
-                <p className="text-on-surface-variant text-xs font-body">
-                  Até 30 dias para trocar seu produto sem custo.
-                </p>
+                <p className="font-title font-semibold text-sm text-on-surface uppercase">Troca Grátis</p>
+                <p className="text-on-surface-variant text-xs font-body">Até 30 dias para trocar seu produto sem custo.</p>
               </div>
             </div>
           </div>
@@ -158,23 +146,13 @@ export default function CartPage() {
 
             <div className="space-y-4 mb-8">
               <div className="flex justify-between items-center">
-                <span className="font-title font-semibold text-sm text-on-surface-variant uppercase">
-                  Subtotal
-                </span>
-                <span className="font-body text-base text-on-surface">
-                  {formatPrice(total)}
-                </span>
+                <span className="font-title font-semibold text-sm text-on-surface-variant uppercase">Subtotal</span>
+                <span className="font-body text-base text-on-surface">{formatPrice(total)}</span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="font-title font-semibold text-sm text-on-surface-variant uppercase">
-                  Frete
-                </span>
+                <span className="font-title font-semibold text-sm text-on-surface-variant uppercase">Frete</span>
                 <span className="font-body text-base text-on-surface">
-                  {total === 0
-                    ? "—"
-                    : shippingCost === 0
-                    ? "Grátis"
-                    : formatPrice(shippingCost)}
+                  {total === 0 ? "—" : shippingCost === 0 ? "Grátis" : formatPrice(shippingCost)}
                 </span>
               </div>
 
@@ -197,9 +175,7 @@ export default function CartPage() {
 
             <div className="border-t border-outline-variant/20 pt-6 mb-8">
               <div className="flex justify-between items-center">
-                <span className="font-headline text-3xl text-on-surface">
-                  TOTAL
-                </span>
+                <span className="font-headline text-3xl text-on-surface">TOTAL</span>
                 <span className="font-headline text-5xl text-flame-orange leading-none">
                   {formatPrice(orderTotal)}
                 </span>
@@ -207,13 +183,12 @@ export default function CartPage() {
             </div>
 
             <button
+              onClick={handleCheckout}
               disabled={items.length === 0}
               className="w-full bg-flame-orange hover:bg-secondary-container disabled:opacity-40 disabled:cursor-not-allowed text-black font-title font-bold text-lg py-5 rounded-full shadow-[0_10px_30px_rgba(249,115,22,0.3)] transition-all hover:scale-[1.02] active:scale-95 uppercase mb-6 flex items-center justify-center gap-3"
             >
               Finalizar Compra
-              <span className="material-symbols-outlined font-bold">
-                arrow_forward
-              </span>
+              <span className="material-symbols-outlined font-bold">arrow_forward</span>
             </button>
 
             <Link
@@ -226,32 +201,10 @@ export default function CartPage() {
         </div>
       </div>
 
-      {/* Shipping calc */}
-      <section className="bg-surface-container-highest/50 py-12 mt-20 -mx-4 md:-mx-16 px-4 md:px-16">
-        <div className="max-w-screen-2xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="flex items-center gap-6">
-            <span className="material-symbols-outlined text-flame-orange text-5xl">
-              local_shipping
-            </span>
-            <div>
-              <h4 className="font-headline text-3xl">CALCULAR FRETE</h4>
-              <p className="text-on-surface-variant font-body">
-                Veja o prazo e valor de entrega para sua região
-              </p>
-            </div>
-          </div>
-          <div className="flex w-full md:w-auto gap-2">
-            <input
-              type="text"
-              placeholder="00000-000"
-              className="bg-surface-container border border-outline-variant/40 rounded-lg px-6 py-3 w-full md:w-64 focus:border-flame-orange outline-none text-on-surface font-headline tracking-widest text-2xl"
-            />
-            <button className="bg-bone-white text-black font-title font-bold px-8 py-3 rounded-lg hover:bg-primary-fixed-dim transition-all uppercase text-sm">
-              Calcular
-            </button>
-          </div>
-        </div>
-      </section>
+      {/* Real shipping calculator */}
+      <div className="mt-20 -mx-4 md:-mx-16">
+        <ShippingCalc />
+      </div>
     </div>
   );
 }

@@ -1,76 +1,163 @@
-export default function Footer() {
-  const quickLinks = ["Shop", "Minha Conta", "Meus Pedidos"];
-  const helpLinks = ["Envio e Entrega", "Trocas e Devoluções", "Contato"];
+import Link from "next/link";
 
+function InstagramIcon() {
   return (
-    <footer className="bg-charcoal-deep border-t-2 border-primary-container/20">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 px-4 md:px-16 py-24 w-full max-w-screen-2xl mx-auto">
-        <div className="space-y-4">
-          <div className="font-headline text-5xl text-flame-orange opacity-50 uppercase">
-            CHICO GRILL
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+    </svg>
+  );
+}
+
+function FacebookIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg">
+      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+    </svg>
+  );
+}
+
+function TikTokIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+    </svg>
+  );
+}
+
+const QUICK_LINKS = [
+  { label: "Loja", href: "/" },
+  { label: "Minha Conta", href: "/account" },
+  { label: "Meus Pedidos", href: "/account" },
+  { label: "Carrinho", href: "/cart" },
+];
+
+const HELP_LINKS = [
+  { label: "Envio e Entrega", href: "/trocas" },
+  { label: "Trocas e Devoluções", href: "/trocas" },
+  { label: "Contato", href: "/contato" },
+  { label: "FAQ", href: "/contato" },
+];
+
+export default function Footer() {
+  return (
+    <footer className="bg-charcoal-deep border-t border-outline-variant/20">
+      {/* Main grid */}
+      <div className="max-w-screen-2xl mx-auto px-4 md:px-16 py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+        {/* Brand */}
+        <div className="space-y-5 lg:col-span-1">
+          <div>
+            <p className="font-headline text-5xl text-flame-orange uppercase leading-none tracking-tighter">
+              CHICO<br />GRILL
+            </p>
           </div>
-          <p className="font-body text-base text-on-surface-variant italic">
-            Quality cuts, artisan craftsmanship, and a commitment to the flame.
+          <p className="font-body text-sm text-on-surface-variant leading-relaxed max-w-xs">
+            Streetwear com a intensidade da brasa. Estilo sem compromisso, qualidade que resiste ao fogo.
           </p>
+          {/* Social icons */}
+          <div className="flex gap-3 pt-1">
+            {[
+              { Icon: InstagramIcon, label: "Instagram", href: "https://instagram.com" },
+              { Icon: FacebookIcon, label: "Facebook", href: "https://facebook.com" },
+              { Icon: TikTokIcon, label: "TikTok", href: "https://tiktok.com" },
+            ].map(({ Icon, label, href }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="w-9 h-9 rounded-full border border-outline-variant/40 flex items-center justify-center text-on-surface-variant hover:border-flame-orange hover:text-flame-orange transition-all"
+              >
+                <Icon />
+              </a>
+            ))}
+          </div>
         </div>
 
+        {/* Quick links */}
         <div className="space-y-4">
-          <h5 className="font-title font-semibold text-sm text-bone-white uppercase tracking-wider">
-            Links Rápidos
+          <h5 className="font-title font-bold text-xs text-bone-white uppercase tracking-widest">
+            Navegação
           </h5>
-          <ul className="space-y-2">
-            {quickLinks.map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
-                  className="text-on-surface-variant hover:text-bone-white transition-colors text-xs font-body"
-                >
-                  {link}
-                </a>
+          <ul className="space-y-2.5">
+            {QUICK_LINKS.map((l) => (
+              <li key={l.label}>
+                <Link href={l.href} className="font-body text-sm text-on-surface-variant hover:text-flame-orange transition-colors flex items-center gap-2 group">
+                  <span className="w-1 h-1 rounded-full bg-outline-variant group-hover:bg-flame-orange transition-colors" />
+                  {l.label}
+                </Link>
               </li>
             ))}
           </ul>
         </div>
 
+        {/* Help */}
         <div className="space-y-4">
-          <h5 className="font-title font-semibold text-sm text-bone-white uppercase tracking-wider">
+          <h5 className="font-title font-bold text-xs text-bone-white uppercase tracking-widest">
             Ajuda
           </h5>
-          <ul className="space-y-2">
-            {helpLinks.map((link) => (
-              <li key={link}>
-                <a
-                  href="#"
-                  className="text-on-surface-variant hover:text-bone-white transition-colors text-xs font-body"
-                >
-                  {link}
-                </a>
+          <ul className="space-y-2.5">
+            {HELP_LINKS.map((l) => (
+              <li key={l.label}>
+                <Link href={l.href} className="font-body text-sm text-on-surface-variant hover:text-flame-orange transition-colors flex items-center gap-2 group">
+                  <span className="w-1 h-1 rounded-full bg-outline-variant group-hover:bg-flame-orange transition-colors" />
+                  {l.label}
+                </Link>
               </li>
             ))}
           </ul>
+          {/* Contact info */}
+          <div className="pt-4 space-y-2 border-t border-outline-variant/20">
+            <p className="font-body text-xs text-on-surface-variant flex items-center gap-2">
+              <span className="material-symbols-outlined text-flame-orange" style={{ fontSize: 16 }}>pin_drop</span>
+              São Paulo, SP
+            </p>
+            <p className="font-body text-xs text-on-surface-variant flex items-center gap-2">
+              <span className="material-symbols-outlined text-flame-orange" style={{ fontSize: 16 }}>mail</span>
+              contato@chicogrill.com.br
+            </p>
+          </div>
         </div>
 
+        {/* Newsletter */}
         <div className="space-y-4">
-          <h5 className="font-title font-semibold text-sm text-bone-white uppercase tracking-wider">
+          <h5 className="font-title font-bold text-xs text-bone-white uppercase tracking-widest">
             Newsletter
           </h5>
+          <p className="font-body text-sm text-on-surface-variant">
+            Receba drops exclusivos e novidades antes de todo mundo.
+          </p>
           <div className="flex">
             <input
               type="email"
-              placeholder="Seu e-mail"
-              className="bg-surface-container-high border border-outline-variant/30 rounded-l-lg px-4 py-2 w-full focus:outline-none focus:border-flame-orange text-on-surface text-sm"
+              placeholder="seu@email.com"
+              className="bg-surface-container border border-outline-variant/30 rounded-l-xl px-4 py-3 w-full focus:outline-none focus:border-flame-orange text-on-surface text-sm font-body"
             />
-            <button className="bg-flame-orange text-black px-4 py-2 rounded-r-lg hover:bg-secondary-container transition-all">
-              <span className="material-symbols-outlined">send</span>
+            <button className="bg-flame-orange text-black px-4 rounded-r-xl hover:bg-secondary-container transition-all shrink-0">
+              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>send</span>
             </button>
           </div>
+          <p className="font-body text-xs text-on-surface-variant">
+            Sem spam. Cancele quando quiser.
+          </p>
         </div>
       </div>
 
-      <div className="max-w-screen-2xl mx-auto px-4 md:px-16 py-8 border-t border-outline-variant/10 text-center">
-        <p className="font-body text-xs text-on-surface-variant">
-          © 2024 CHICO GRILL. RAW QUALITY. UNAPOLOGETIC STYLE.
-        </p>
+      {/* Bottom bar */}
+      <div className="border-t border-outline-variant/10">
+        <div className="max-w-screen-2xl mx-auto px-4 md:px-16 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="font-body text-xs text-on-surface-variant">
+            © 2024 CHICO GRILL. RAW QUALITY. UNAPOLOGETIC STYLE.
+          </p>
+          <div className="flex gap-5">
+            {["Termos de Uso", "Privacidade", "Cookies"].map((l) => (
+              <a key={l} href="#" className="font-body text-xs text-on-surface-variant hover:text-bone-white transition-colors">
+                {l}
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </footer>
   );

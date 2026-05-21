@@ -72,6 +72,11 @@ body {
   overflow-x: hidden;
 }
 
+@keyframes slide {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #121412; }
 ::-webkit-scrollbar-thumb { background: #343533; border-radius: 4px; }

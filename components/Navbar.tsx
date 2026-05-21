@@ -2,9 +2,17 @@
 
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
+
+const NAV_LINKS = [
+  { label: "Loja", href: "/" },
+  { label: "Sobre", href: "/sobre" },
+  { label: "Unidades", href: "/unidades" },
+];
 
 export default function Navbar() {
   const { count } = useCart();
+  const { user, logout } = useAuth();
 
   return (
     <header className="bg-surface/90 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30">
@@ -17,13 +25,13 @@ export default function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
-          {["Shop", "About", "Units"].map((item) => (
+          {NAV_LINKS.map((item) => (
             <Link
-              key={item}
-              href={item === "Shop" ? "/" : "#"}
+              key={item.label}
+              href={item.href}
               className="text-on-surface-variant hover:text-flame-orange transition-colors text-sm font-title font-semibold tracking-wider uppercase"
             >
-              {item}
+              {item.label}
             </Link>
           ))}
         </div>
@@ -42,11 +50,38 @@ export default function Navbar() {
               </span>
             )}
           </Link>
-          <button className="hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150">
-            <span className="material-symbols-outlined text-flame-orange">
-              account_circle
-            </span>
-          </button>
+
+          {user ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/account"
+                className="flex items-center gap-2 hover:bg-surface-container-high/50 transition-all px-3 py-1.5 rounded-full active:scale-95"
+              >
+                <span className="material-symbols-outlined text-flame-orange text-xl">
+                  account_circle
+                </span>
+                <span className="hidden md:block font-title font-semibold text-xs text-on-surface uppercase truncate max-w-24">
+                  {user.name.split(" ")[0]}
+                </span>
+              </Link>
+              <button
+                onClick={logout}
+                className="hidden md:flex items-center gap-1 text-on-surface-variant hover:text-meat-red transition-colors text-xs font-title font-semibold uppercase"
+                title="Sair"
+              >
+                <span className="material-symbols-outlined text-base">logout</span>
+              </button>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              className="hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150"
+            >
+              <span className="material-symbols-outlined text-flame-orange">
+                account_circle
+              </span>
+            </Link>
+          )}
         </div>
       </nav>
     </header>
