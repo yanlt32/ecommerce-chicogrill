@@ -34,6 +34,22 @@ export type OrderItem = {
   image: string;
 };
 
+export type ReturnReason =
+  | "tamanho"
+  | "defeito"
+  | "nao_gostei"
+  | "item_errado"
+  | "outro";
+
+export type ReturnRequest = {
+  id: string;
+  date: string;
+  reason: ReturnReason;
+  description: string;
+  status: "Pendente" | "Em Análise" | "Aprovada" | "Recusada";
+  adminNote?: string;
+};
+
 export type Order = {
   id: string;
   date: string;
@@ -42,6 +58,10 @@ export type Order = {
   status: "Processando" | "Enviado" | "Entregue";
   address: Address;
   payMethod: string;
+  trackingCode?: string | null;
+  labelUrl?: string | null;
+  meOrderId?: string;
+  returnRequest?: ReturnRequest;
 };
 
 type AuthContextType = {
@@ -54,6 +74,9 @@ type AuthContextType = {
   updateUser: (updates: Partial<User>) => void;
   saveAddress: (addr: Address) => void;
   addOrder: (order: Omit<Order, "id" | "date" | "status">) => Order;
+  updateOrder: (id: string, updates: Partial<Order>) => void;
+  requestReturn: (orderId: string, reason: ReturnReason, description: string) => void;
+  updateReturn: (orderId: string, updates: Partial<ReturnRequest>) => void;
   // admin: all orders from all users
   allOrders: Order[];
 };
@@ -156,6 +179,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return order;
   }
 
+  function requestReturn(orderId: string, reason: ReturnReason, description: string) {
+    const request: ReturnRequest = {
+      id: Math.random().toString(36).slice(2, 10),
+      date: new Date().toLocaleDateString("pt-BR"),
+      reason,
+      description,
+      status: "Pendente",
+    };
+    updateOrder(orderId, { returnRequest: request });
+  }
+
+  function updateReturn(orderId: string, updates: Partial<ReturnRequest>) {
+    const patch = (list: Order[]) =>
+      list.map((o) =>
+        o.id === orderId && o.returnRequest
+          ? { ...o, returnRequest: { ...o.returnRequest, ...updates } }
+          : o
+      );
+
+    setOrders((prev) => {
+      const updated = patch(prev);
+      if (user) localStorage.setItem(`cg_orders_${user.email}`, JSON.stringify(updated));
+      return updated;
+    });
+
+    setAllOrders((prev) => {
+      const updated = patch(prev);
+      localStorage.setItem(STORAGE_KEYS.allOrders, JSON.stringify(updated));
+      return updated;
+    });
+  }
+
+  function updateOrder(id: string, updates: Partial<Order>) {
+    const patch = (list: Order[]) =>
+      list.map((o) => (o.id === id ? { ...o, ...updates } : o));
+
+    setOrders((prev) => {
+      const updated = patch(prev);
+      if (user) localStorage.setItem(`cg_orders_${user.email}`, JSON.stringify(updated));
+      return updated;
+    });
+
+    setAllOrders((prev) => {
+      const updated = patch(prev);
+      localStorage.setItem(STORAGE_KEYS.allOrders, JSON.stringify(updated));
+      return updated;
+    });
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -168,6 +240,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         updateUser,
         saveAddress,
         addOrder,
+        updateOrder,
+        requestReturn,
+        updateReturn,
         allOrders,
       }}
     >

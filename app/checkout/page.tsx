@@ -21,7 +21,7 @@ const STEP_LABELS: Record<Step, string> = { info: "Dados Pessoais", address: "En
 export default function CheckoutPage() {
   const router = useRouter();
   const { items, total, count, removeItem } = useCart();
-  const { user, address: savedAddress, updateUser, saveAddress, addOrder } = useAuth();
+  const { user, address: savedAddress, updateUser, saveAddress, addOrder, updateOrder } = useAuth();
   const [step, setStep] = useState<Step>("info");
   const [payMethod, setPayMethod] = useState<"pix" | "card">("pix");
   const [submitting, setSubmitting] = useState(false);
@@ -92,7 +92,7 @@ export default function CheckoutPage() {
     if (v.replace(/\D/g, "").length === 8) lookupCep(v);
   }
 
-  function handleNext(e: React.FormEvent) {
+  async function handleNext(e: React.FormEvent) {
     e.preventDefault();
     if (step === "info") {
       updateUser({ phone, cpf });
@@ -102,26 +102,56 @@ export default function CheckoutPage() {
       setStep("payment");
     } else if (step === "payment") {
       setSubmitting(true);
-      setTimeout(() => {
+      try {
+        const orderItems = items.map((i) => ({
+          productId: i.product.id,
+          productName: i.product.name,
+          quantity: i.quantity,
+          price: i.product.price,
+          size: i.size,
+          image: i.product.image,
+        }));
+
         const newOrder = addOrder({
           total: orderTotal,
-          items: items.map((i) => ({
-            productId: i.product.id,
-            productName: i.product.name,
-            quantity: i.quantity,
-            price: i.product.price,
-            size: i.size,
-            image: i.product.image,
-          })),
+          items: orderItems,
           address: { cep, street, number, complement, neighborhood, city, state: uf },
           payMethod: payMethod === "pix" ? "PIX" : `Cartão (${installments}x)`,
         });
-        // clear cart
+
+        // Generate shipping label automatically
+        try {
+          const res = await fetch("/api/shipping/label", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              customerName: name,
+              customerEmail: email,
+              customerPhone: phone,
+              address: { street, number, district: neighborhood, city, state: uf, cep },
+              serviceId: 1, // PAC
+              insuranceValue: total,
+              items: items.map((i) => ({
+                name: i.product.name,
+                quantity: i.quantity,
+                price: i.product.price,
+              })),
+            }),
+          });
+          if (res.ok) {
+            const { trackingCode, labelUrl, meOrderId } = await res.json();
+            updateOrder(newOrder.id, { trackingCode, labelUrl, meOrderId });
+          }
+        } catch {
+          // Label generation is non-critical — admin can regenerate from the panel
+        }
+
         items.forEach((i) => removeItem(i.product.id, i.size));
         setOrder(newOrder);
-        setSubmitting(false);
         setStep("success");
-      }, 1500);
+      } finally {
+        setSubmitting(false);
+      }
     }
   }
 
