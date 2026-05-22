@@ -72,6 +72,10 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @keyframes slide {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -81,3 +85,32 @@ body {
 ::-webkit-scrollbar-track { background: #121412; }
 ::-webkit-scrollbar-thumb { background: #343533; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #F97316; }
+
+/* Logo styles to match provided image */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+
+.logo-text {
+  font-family: var(--font-headline, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial);
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--color-on-surface);
+  letter-spacing: -0.02em;
+  line-height: 1;
+  font-size: 1.125rem; /* ~18px */
+}
+
+.logo-accent {
+  color: var(--color-flame-orange);
+  margin-left: 0.4rem;
+  font-weight: 900;
+}
+
+@media (min-width: 768px) {
+  .logo-text {
+    font-size: 1.5rem; /* ~24px on desktop to match header scale */
+  }
+}

@@ -23,10 +23,11 @@ export default function ShopPage() {
         {/* Background image */}
         <div className="absolute inset-0">
           <Image
-            src={products[0].images[2]}
+            src="/hero/burger.jpg"
             alt="hero"
             fill
             className="object-cover opacity-30"
+            style={{ objectPosition: "70% center" }}
             unoptimized
             priority
           />
@@ -37,7 +38,8 @@ export default function ShopPage() {
         {/* Content */}
         <div className="relative z-10 max-w-screen-2xl mx-auto px-4 md:px-16 w-full py-24">
           <div className="max-w-2xl">
-            <span className="inline-block bg-flame-orange text-black font-title font-bold text-xs px-4 py-1.5 rounded-full uppercase tracking-widest mb-6">
+            <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-5 py-2.5 text-[11px] font-headline uppercase tracking-[0.28em] text-white shadow-[0_8px_30px_rgba(0,0,0,0.25)] backdrop-blur-md mb-6">
+              <span className="h-2 w-2 rounded-full bg-flame-orange shadow-[0_0_12px_rgba(249,115,22,0.85)]" />
               Nova Coleção 2026
             </span>
 
@@ -108,7 +110,7 @@ export default function ShopPage() {
               className={`font-title font-semibold text-sm uppercase tracking-wider whitespace-nowrap px-5 py-2 rounded-full transition-all ${
                 activeCategory === cat
                   ? "bg-flame-orange text-black"
-                  : "text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high"
+                  : "text-bone-white/80 hover:text-bone-white hover:bg-surface-container-high"
               }`}
             >
               {cat}
@@ -118,13 +120,13 @@ export default function ShopPage() {
       </div>
 
       {/* ── Products grid ── */}
-      <section className="max-w-screen-2xl mx-auto px-4 md:px-16 py-16">
+      <section className="max-w-screen-2xl mx-auto px-4 md:px-16 py-16 scroll-mt-24">
         <div className="flex justify-between items-end mb-12">
           <div>
             <h2 className="font-headline text-4xl md:text-5xl text-on-surface uppercase">
               {activeCategory === "Todos" ? "A Coleção" : activeCategory}
             </h2>
-            <p className="font-body text-base text-on-surface-variant">
+            <p className="font-body text-base text-bone-white/80">
               {filtered.length} produto{filtered.length !== 1 ? "s" : ""}
             </p>
           </div>
@@ -169,7 +171,7 @@ export default function ShopPage() {
                     <h3 className="font-title font-bold text-base text-on-surface uppercase tracking-tight">
                       {product.name}
                     </h3>
-                    <p className="font-body text-sm text-on-surface-variant">
+                    <p className="font-body text-sm text-bone-white/80">
                       {product.category}
                     </p>
                   </div>
@@ -184,16 +186,16 @@ export default function ShopPage() {
       </section>
 
       {/* ── Brand strip ── */}
-      <section className="bg-flame-orange py-8 overflow-hidden">
-        <div className="flex gap-16 animate-[slide_20s_linear_infinite] whitespace-nowrap">
-          {Array(6)
+      <section className="bg-flame-orange py-3 overflow-hidden">
+          <div className="flex gap-8 animate-[slide_22s_linear_infinite] whitespace-nowrap">
+          {Array(8)
             .fill(null)
             .map((_, i) => (
               <span
                 key={i}
-                className="font-headline text-2xl text-black uppercase tracking-widest shrink-0"
+                className="font-headline text-lg md:text-xl text-black uppercase tracking-[0.18em] shrink-0"
               >
-                CHICO GRILL · COLEÇÃO 2026 · UNAPOLOGETIC STYLE ·
+                CHICO GRILL · COLEÇÃO 2026
               </span>
             ))}
         </div>

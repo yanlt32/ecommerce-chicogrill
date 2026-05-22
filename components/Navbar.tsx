@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
@@ -10,18 +11,35 @@ const NAV_LINKS = [
   { label: "Unidades", href: "/unidades" },
 ];
 
+const MOBILE_MENU = {
+  navegacao: [
+    { label: "Loja", href: "/" },
+    { label: "Minha Conta", href: "/account" },
+    { label: "Meus Pedidos", href: "/account" },
+    { label: "Carrinho", href: "/cart" },
+  ],
+  ajuda: [
+    { label: "Envio e Entrega", href: "/trocas" },
+    { label: "Trocas e Devoluções", href: "/trocas" },
+    { label: "Contato", href: "/contato" },
+    { label: "FAQ", href: "/contato" },
+  ],
+  notificacoes: [{ label: "NOTIFICAÇÕES", href: "/#notifications" }],
+};
+
 export default function Navbar() {
   const { count } = useCart();
   const { user, logout } = useAuth();
+  const [menuOpen, setMenuOpen] = useState(false);
 
   return (
     <header className="bg-surface/90 backdrop-blur-md sticky top-0 z-50 border-b border-outline-variant/30">
-      <nav className="flex justify-between items-center w-full px-4 md:px-16 py-2 max-w-screen-2xl mx-auto">
-        <Link
-          href="/"
-          className="font-headline text-3xl text-flame-orange tracking-tighter uppercase"
-        >
-          CHICO GRILL
+      <nav className="relative flex justify-between items-center w-full px-4 md:px-16 py-2 max-w-screen-2xl mx-auto">
+        <Link href="/" className="logo" aria-label="Chico Grill - Página inicial">
+          <span className="logo-text">
+            CHICO
+            <span className="logo-accent">GRILL</span>
+          </span>
         </Link>
 
         <div className="hidden md:flex items-center gap-6">
@@ -29,7 +47,7 @@ export default function Navbar() {
             <Link
               key={item.label}
               href={item.href}
-              className="text-on-surface-variant hover:text-flame-orange transition-colors text-sm font-title font-semibold tracking-wider uppercase"
+              className="text-bone-white/80 hover:text-flame-orange transition-colors text-sm font-title font-semibold tracking-wider uppercase"
             >
               {item.label}
             </Link>
@@ -37,6 +55,18 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((value) => !value)}
+            aria-label="Abrir menu"
+            aria-expanded={menuOpen}
+            className="md:hidden hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150"
+          >
+            <span className="material-symbols-outlined text-flame-orange">
+              {menuOpen ? "close" : "menu"}
+            </span>
+          </button>
+
           <Link
             href="/cart"
             className="relative hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150"
@@ -84,6 +114,58 @@ export default function Navbar() {
           )}
         </div>
       </nav>
+
+      {menuOpen && (
+        <div className="md:hidden border-t border-outline-variant/20 bg-surface/95 backdrop-blur-md">
+          <div className="max-w-screen-2xl mx-auto px-4 py-4 space-y-6">
+            <div className="space-y-3">
+              <p className="font-title text-xs uppercase tracking-widest text-bone-white">Navegação</p>
+              <div className="grid grid-cols-2 gap-2">
+                {MOBILE_MENU.navegacao.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-xl border border-outline-variant/20 bg-surface-container px-4 py-3 text-sm font-title font-semibold uppercase text-bone-white/80 hover:border-flame-orange hover:text-flame-orange transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <p className="font-title text-xs uppercase tracking-widest text-bone-white">Ajuda</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                {MOBILE_MENU.ajuda.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setMenuOpen(false)}
+                    className="rounded-xl border border-outline-variant/20 bg-surface-container px-4 py-3 text-sm font-title font-semibold uppercase text-bone-white/80 hover:border-flame-orange hover:text-flame-orange transition-colors"
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <p className="font-title text-xs uppercase tracking-widest text-bone-white">Notificações</p>
+              {MOBILE_MENU.notificacoes.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={() => setMenuOpen(false)}
+                  className="block rounded-xl border border-outline-variant/20 bg-surface-container px-4 py-3 text-sm font-title font-semibold uppercase text-bone-white/80 hover:border-flame-orange hover:text-flame-orange transition-colors"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

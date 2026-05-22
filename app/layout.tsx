@@ -37,6 +37,7 @@ export default function RootLayout({
   return (
     <html
       lang="pt-BR"
+      data-scroll-behavior="smooth"
       className={`dark ${bebasNeue.variable} ${syne.variable} ${dmSans.variable}`}
     >
       <head>

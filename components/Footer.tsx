@@ -51,13 +51,13 @@ export default function Footer() {
               CHICO<br />GRILL
             </p>
           </div>
-          <p className="font-body text-sm text-on-surface-variant leading-relaxed max-w-xs">
+          <p className="font-body text-sm text-white/72 leading-relaxed max-w-xs">
             Streetwear com a intensidade da brasa. Estilo sem compromisso, qualidade que resiste ao fogo.
           </p>
           {/* Social icons */}
           <div className="flex gap-3 pt-1">
             {[
-              { Icon: InstagramIcon, label: "Instagram", href: "https://instagram.com" },
+              { Icon: InstagramIcon, label: "Instagram", href: "https://www.instagram.com/chicogrill_01/?hl=pt-br" },
               { Icon: FacebookIcon, label: "Facebook", href: "https://facebook.com" },
               { Icon: TikTokIcon, label: "TikTok", href: "https://tiktok.com" },
             ].map(({ Icon, label, href }) => (
@@ -67,7 +67,7 @@ export default function Footer() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={label}
-                className="w-9 h-9 rounded-full border border-outline-variant/40 flex items-center justify-center text-on-surface-variant hover:border-flame-orange hover:text-flame-orange transition-all"
+                className="w-9 h-9 rounded-full border border-outline-variant/40 flex items-center justify-center text-white/70 hover:border-flame-orange hover:text-flame-orange transition-all"
               >
                 <Icon />
               </a>
@@ -76,14 +76,14 @@ export default function Footer() {
         </div>
 
         {/* Quick links */}
-        <div className="space-y-4">
+        <div className="space-y-4" id="notifications">
           <h5 className="font-title font-bold text-xs text-bone-white uppercase tracking-widest">
             Navegação
           </h5>
           <ul className="space-y-2.5">
             {QUICK_LINKS.map((l) => (
               <li key={l.label}>
-                <Link href={l.href} className="font-body text-sm text-on-surface-variant hover:text-flame-orange transition-colors flex items-center gap-2 group">
+                <Link href={l.href} className="font-body text-sm text-white/78 hover:text-flame-orange transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 rounded-full bg-outline-variant group-hover:bg-flame-orange transition-colors" />
                   {l.label}
                 </Link>
@@ -100,7 +100,7 @@ export default function Footer() {
           <ul className="space-y-2.5">
             {HELP_LINKS.map((l) => (
               <li key={l.label}>
-                <Link href={l.href} className="font-body text-sm text-on-surface-variant hover:text-flame-orange transition-colors flex items-center gap-2 group">
+                <Link href={l.href} className="font-body text-sm text-white/78 hover:text-flame-orange transition-colors flex items-center gap-2 group">
                   <span className="w-1 h-1 rounded-full bg-outline-variant group-hover:bg-flame-orange transition-colors" />
                   {l.label}
                 </Link>
@@ -109,11 +109,11 @@ export default function Footer() {
           </ul>
           {/* Contact info */}
           <div className="pt-4 space-y-2 border-t border-outline-variant/20">
-            <p className="font-body text-xs text-on-surface-variant flex items-center gap-2">
+            <p className="font-body text-xs text-white/72 flex items-center gap-2">
               <span className="material-symbols-outlined text-flame-orange" style={{ fontSize: 16 }}>pin_drop</span>
               São Paulo, SP
             </p>
-            <p className="font-body text-xs text-on-surface-variant flex items-center gap-2">
+            <p className="font-body text-xs text-white/72 flex items-center gap-2">
               <span className="material-symbols-outlined text-flame-orange" style={{ fontSize: 16 }}>mail</span>
               contato@chicogrill.com.br
             </p>
@@ -123,9 +123,9 @@ export default function Footer() {
         {/* Newsletter */}
         <div className="space-y-4">
           <h5 className="font-title font-bold text-xs text-bone-white uppercase tracking-widest">
-            Newsletter
+            NOTIFICAÇÕES
           </h5>
-          <p className="font-body text-sm text-on-surface-variant">
+          <p className="font-body text-sm text-white/72">
             Receba drops exclusivos e novidades antes de todo mundo.
           </p>
           <div className="flex">
@@ -138,21 +138,18 @@ export default function Footer() {
               <span className="material-symbols-outlined" style={{ fontSize: 18 }}>send</span>
             </button>
           </div>
-          <p className="font-body text-xs text-on-surface-variant">
-            Sem spam. Cancele quando quiser.
-          </p>
         </div>
       </div>
 
       {/* Bottom bar */}
       <div className="border-t border-outline-variant/10">
         <div className="max-w-screen-2xl mx-auto px-4 md:px-16 py-5 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="font-body text-xs text-on-surface-variant">
-            © 2024 CHICO GRILL. RAW QUALITY. UNAPOLOGETIC STYLE.
+            <p className="font-body text-xs text-white/70">
+            © 2026 CHICO GRILL. QUALIDADE E ESTILO. - Desenvolvido por Yan Ladeia Tortelli
           </p>
           <div className="flex gap-5">
             {["Termos de Uso", "Privacidade", "Cookies"].map((l) => (
-              <a key={l} href="#" className="font-body text-xs text-on-surface-variant hover:text-bone-white transition-colors">
+                <a key={l} href="#" className="font-body text-xs text-white/70 hover:text-bone-white transition-colors">
                 {l}
               </a>
             ))}

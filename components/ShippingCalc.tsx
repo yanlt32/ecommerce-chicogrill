@@ -61,7 +61,7 @@ export default function ShippingCalc() {
           <span className="material-symbols-outlined text-flame-orange text-5xl">local_shipping</span>
           <div>
             <h4 className="font-headline text-3xl">CALCULAR FRETE</h4>
-            <p className="text-on-surface-variant font-body text-sm">
+            <p className="text-white/50 font-body text-sm">
               Veja o prazo e valor para sua região
             </p>
           </div>
