@@ -143,7 +143,7 @@ export default function ShopPage() {
             {filtered.map((product) => (
               <div key={product.id} className="group">
                 <div className="aspect-[4/5] bg-surface-container rounded-xl overflow-hidden mb-4 relative">
-                  <Link href={`/product/${product.id}`} className="block w-full h-full">
+                  <Link href={`/product/${product.id}`} className="relative block w-full h-full">
                     <Image
                       src={product.image}
                       alt={product.name}

@@ -210,12 +210,12 @@ export default function ProductDetail({ product }: { product: Product }) {
               <div className="flex items-center gap-4 flex-wrap">
                 <span className="font-headline text-3xl text-flame-orange">{formatPrice(product.price)}</span>
                 <div className="h-6 w-px bg-outline-variant/30" />
-                <button onClick={() => {}} className="flex items-center gap-1 text-on-surface-variant hover:text-flame-orange transition-colors">
+                <div className="flex items-center gap-1 text-on-surface-variant">
                   <Stars rating={Math.round(avgRating)} />
                   <span className="font-title font-semibold text-sm ml-1">
                     {avgRating.toFixed(1)} ({reviewCount})
                   </span>
-                </button>
+                </div>
               </div>
 
               {/* Stock indicator */}
