@@ -9,6 +9,7 @@ export type Product = {
   badge?: string;
   sizes?: string[];
   material?: string;
+  stock: number;
 };
 
 export const products: Product[] = [
@@ -21,6 +22,7 @@ export const products: Product[] = [
     category: "Camisetas",
     material: "100% Algodão Heavyweight",
     sizes: ["P", "M", "G", "GG"],
+    stock: 18,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAxzH7mnPWhojskUhRpjg0GUBqhQTZOvqK1bzFOyQj9-v95fHqLLeVZodtngSqW4SBo6xDzvqpR5bNKa3A-0VXu-xayLK_BoyhBAyRkuzw8PtRTPjg1znF7fLNLEiCTldOQ7IcdqrRfm4WG1yLrf1Dvfwtw_dh9TDwJcD1TmvXM9s65sqMH8vXU59bEXxyApwPVRAGrB9PQmkIWE7GPNRFtfZVRjA8nbLzoNif1j9UidwuFxDHSfXGFhIuvQDF10fylWEPclgMa4ws",
     images: [
@@ -38,6 +40,7 @@ export const products: Product[] = [
     category: "Moletons",
     material: "80% Algodão, 20% Poliéster",
     sizes: ["P", "M", "G", "GG"],
+    stock: 9,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuAoCsB8mpBiDXHwUOpmDGTDTCDGlXWZV9k_8VqKpJOKeWjB6lmPdmr_hAnxtxbH8Nj_VyD0rYdbsjm5GnDk5DPj1QlNftyTQGoKrmeOXY2o_F4106lpStw311nzQ51ALkFXu0-BHFRohNgJswzySURBoLE_iREA57gjpLkXVstVl1NzMHsVXPsw8MnK2E60rEO24HAK6_-0hoL6y6e8QSQYlGwL1RSv8HmH7fe59-9ZxIUZOyne8ewtslNuPU8HXxzH_x57ONAsBOQ",
     images: [
@@ -52,6 +55,7 @@ export const products: Product[] = [
       "Proteção máxima com estilo. Couro genuíno de alta espessura com fivelas metálicas resistentes.",
     category: "Acessórios",
     badge: "NOVO",
+    stock: 5,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuDonmPgV8aY2IHyuhTtTmOaHm2KiF9W-Jv_zCuWOO2tWTjpZqv7K76iJnpyiSyhqr9CQHZbRD0IejI_K-ccG1KsNMPRTAVW6dBDLnV-H9ZlVN4H5uMnbCQvlYutZXs544N4rR7HvWr0D6xacyDJ3NeIg1Ge0vlsXGpRCu2Qac3JmDiI9QfePac965CFvdkeHSSpksW27dideTEyGn_Q2Yb3SqYA08qGW78X_jVr7Y1njVtpeyaruJzYJiSpOFcTcBnGArkG1f6a9n0",
     images: [
@@ -65,6 +69,7 @@ export const products: Product[] = [
     description:
       "Snapback aba curva com bordado exclusivo do Chico Grill. Ajuste traseiro para o encaixe perfeito.",
     category: "Acessórios",
+    stock: 12,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuD2mRFbVSnyLSbeWplkTT2bcaiEN2TBJrmEPJT-ZGN4_HA-7rqnghVB-1GvgGYKXo4Qi5FOdFtK0eqsMjsekcb3uHsYUoTlhEwWqbFBHOUnUX2-AU1CgIsx_bbemNuJm33h1xjeVPAJ_hDwgfpJxGbYQlIiDqH3XpBtkBIDH4MQxOEFRAzuKxYsyXSlYS64CWOM-VeNTAPBEFeMPEKSuM0-o8zv-uutu85SkmipanZcDiCXSMNld4EU4GKZqZvEK2e3NFM4FjbHeyw",
     images: [
@@ -78,6 +83,7 @@ export const products: Product[] = [
     description:
       "Aço damasco forjado à mão com cabo ergonômico. Para quem leva o corte a sério.",
     category: "Acessórios",
+    stock: 3,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuALKNCCB3sDVDlkE7oWRGfVJ2GpBIg3_zYlrmQG7N5Tu7gMpKzOinUUY94R4aPB-qPfK3i8RiA-OzSBhJIORCRBMgNJ5QbBsC1sq7kSceE3kI7P2L4shfHDbGgbD8h8bxQjsL3YT3Hq_h-pI4mz6y1pUZIWaVU9Tf-KSuWmN7Gs4UYYt48zABK8zG7AUWQ7W-ncIw2rGHmh_TDHvzriocB0VWqt2X_y_d69jskeaQsDXA0sQ25_px8s_XCeWNO_tyKog77pS0OtdFs",
     images: [
@@ -93,6 +99,7 @@ export const products: Product[] = [
     category: "Camisetas",
     material: "100% Algodão Mescla",
     sizes: ["P", "M", "G", "GG"],
+    stock: 22,
     image:
       "https://lh3.googleusercontent.com/aida-public/AB6AXuCgstYKpKhVzNys4SgmCEiZrRXyX09ve86KSONhSLWf2G_3QW0KbppaEUvBDK6gmUo0AqZ_ngJvKel6uvHozbWnZw1j1NZAsXbCpsAWC7LaRgETZ3UrbKz0jS-Imcn8uYw5LtrMO1gOMxp2uaIR3wBsd_SNIFQlMD9JWW2bwtAG4ynhqYCwjjsHCHESRirKYNe3H0qYm8aWz3jdYbGI246lwXnRBEaT3PT58_dCHesCX5bPrI1Pukrt7lOL6hkjVYcqPUsRFqMulCk",
     images: [

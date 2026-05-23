@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCart } from "@/context/CartContext";
 import { useAuth } from "@/context/AuthContext";
+import { useWishlist } from "@/context/WishlistContext";
 
 const NAV_LINKS = [
   { label: "Loja", href: "/" },
@@ -28,8 +30,22 @@ const MOBILE_MENU = {
 };
 
 export default function Navbar() {
+  const router = useRouter();
   const { count } = useCart();
   const { user, logout } = useAuth();
+  const { wishlist } = useWishlist();
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef<HTMLInputElement>(null);
+
+  function handleSearchSubmit(e: FormEvent) {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/busca?q=${encodeURIComponent(searchQuery.trim())}`);
+      setSearchOpen(false);
+      setSearchQuery("");
+    }
+  }
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
@@ -55,6 +71,38 @@ export default function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
+          {/* Search */}
+          {searchOpen ? (
+            <form onSubmit={handleSearchSubmit} className="flex items-center gap-2">
+              <input
+                ref={searchRef}
+                autoFocus
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Buscar produto..."
+                className="bg-surface-container border border-outline-variant/40 rounded-full px-4 py-1.5 text-on-surface font-body text-sm focus:border-flame-orange outline-none w-48 md:w-64"
+              />
+              <button type="button" onClick={() => setSearchOpen(false)} className="p-2 text-on-surface-variant hover:text-flame-orange">
+                <span className="material-symbols-outlined text-xl">close</span>
+              </button>
+            </form>
+          ) : (
+            <button onClick={() => setSearchOpen(true)} className="hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150">
+              <span className="material-symbols-outlined text-flame-orange">search</span>
+            </button>
+          )}
+
+          {/* Wishlist */}
+          <Link href="/favoritos" className="relative hover:bg-surface-container-high/50 transition-all p-2 rounded-full active:scale-95 duration-150">
+            <span className="material-symbols-outlined text-flame-orange">favorite</span>
+            {wishlist.length > 0 && (
+              <span className="absolute -top-1 -right-1 bg-meat-red text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full font-bold">
+                {wishlist.length}
+              </span>
+            )}
+          </Link>
+
           <button
             type="button"
             onClick={() => setMenuOpen((value) => !value)}

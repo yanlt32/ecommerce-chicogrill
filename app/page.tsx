@@ -5,11 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { products, formatPrice } from "@/lib/products";
 import ShippingCalc from "@/components/ShippingCalc";
+import { useWishlist } from "@/context/WishlistContext";
 
 const categories = ["Todos", "Camisetas", "Moletons", "Acessórios"];
 
 export default function ShopPage() {
   const [activeCategory, setActiveCategory] = useState("Todos");
+  const { toggleWishlist, isWishlisted } = useWishlist();
 
   const filtered =
     activeCategory === "Todos"
@@ -139,34 +141,51 @@ export default function ShopPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((product) => (
-              <Link
-                key={product.id}
-                href={`/product/${product.id}`}
-                className="group cursor-pointer"
-              >
+              <div key={product.id} className="group">
                 <div className="aspect-[4/5] bg-surface-container rounded-xl overflow-hidden mb-4 relative">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    unoptimized
-                  />
+                  <Link href={`/product/${product.id}`} className="block w-full h-full">
+                    <Image
+                      src={product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      unoptimized
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-charcoal-deep/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                      <span className="font-title font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
+                        Ver Produto
+                        <span className="material-symbols-outlined text-base">
+                          arrow_forward
+                        </span>
+                      </span>
+                    </div>
+                  </Link>
                   {product.badge && (
-                    <div className="absolute top-4 right-4 bg-flame-orange text-black px-3 py-1 font-headline text-base rounded-sm">
+                    <div className="absolute top-4 right-4 bg-flame-orange text-black px-3 py-1 font-headline text-base rounded-sm pointer-events-none">
                       {product.badge}
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-charcoal-deep/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                    <span className="font-title font-bold text-white text-sm uppercase tracking-wider flex items-center gap-2">
-                      Ver Produto
-                      <span className="material-symbols-outlined text-base">
-                        arrow_forward
-                      </span>
+                  {product.stock === 0 && (
+                    <div className="absolute top-4 left-4 bg-charcoal-deep/80 text-white/70 px-3 py-1 font-headline text-sm rounded-sm pointer-events-none">
+                      ESGOTADO
+                    </div>
+                  )}
+                  <button
+                    onClick={() => toggleWishlist(product.id)}
+                    aria-label={isWishlisted(product.id) ? "Remover dos favoritos" : "Adicionar aos favoritos"}
+                    className="absolute bottom-4 right-4 w-9 h-9 rounded-full bg-charcoal-deep/70 backdrop-blur-sm flex items-center justify-center hover:bg-charcoal-deep transition-all active:scale-90 z-10"
+                  >
+                    <span
+                      className={`material-symbols-outlined text-lg transition-colors ${
+                        isWishlisted(product.id) ? "text-meat-red" : "text-white/70"
+                      }`}
+                      style={{ fontVariationSettings: isWishlisted(product.id) ? "'FILL' 1" : "'FILL' 0" }}
+                    >
+                      favorite
                     </span>
-                  </div>
+                  </button>
                 </div>
-                <div className="flex justify-between items-start px-1">
+                <Link href={`/product/${product.id}`} className="flex justify-between items-start px-1">
                   <div>
                     <h3 className="font-title font-bold text-base text-on-surface uppercase tracking-tight">
                       {product.name}
@@ -178,8 +197,8 @@ export default function ShopPage() {
                   <span className="font-headline text-xl text-flame-orange">
                     {formatPrice(product.price)}
                   </span>
-                </div>
-              </Link>
+                </Link>
+              </div>
             ))}
           </div>
         )}

@@ -148,10 +148,14 @@ export default function Footer() {
             © 2026 CHICO GRILL. QUALIDADE E ESTILO. - Desenvolvido por Yan Ladeia Tortelli
           </p>
           <div className="flex gap-5">
-            {["Termos de Uso", "Privacidade", "Cookies"].map((l) => (
-                <a key={l} href="#" className="font-body text-xs text-white/70 hover:text-bone-white transition-colors">
-                {l}
-              </a>
+            {[
+              { label: "Termos de Uso", href: "/termos" },
+              { label: "Privacidade", href: "/privacidade" },
+              { label: "Cookies", href: "/privacidade" },
+            ].map((l) => (
+              <Link key={l.label} href={l.href} className="font-body text-xs text-on-surface-variant hover:text-bone-white transition-colors">
+                {l.label}
+              </Link>
             ))}
           </div>
         </div>

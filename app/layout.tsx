@@ -3,8 +3,10 @@ import { Bebas_Neue, Syne, DM_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 import { CartProvider } from "@/context/CartContext";
 import { AuthProvider } from "@/context/AuthContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -51,11 +53,14 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-surface text-on-surface font-body">
         <AuthProvider>
-          <CartProvider>
-            <Navbar />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Navbar />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+              <CookieBanner />
+            </CartProvider>
+          </WishlistProvider>
         </AuthProvider>
       </body>
     </html>
